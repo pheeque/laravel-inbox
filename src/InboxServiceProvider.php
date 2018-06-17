@@ -127,11 +127,11 @@ class InboxServiceProvider extends ServiceProvider
 //            ], 'inbox-migrations');
 
             $this->publishes([
-                __DIR__ . '/../resources/views' => resource_path('views/vendor/laravel-inbox'),
+                __DIR__ . '/../resources/views' => resource_path('views/vendor/inbox'),
             ], 'inbox-views');
 
             $this->publishes([
-                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/laravel-inbox'),
+                __DIR__ . '/../resources/lang' => resource_path('lang/vendor/inbox'),
             ], 'inbox-translations');
         }
     }

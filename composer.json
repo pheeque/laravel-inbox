@@ -1,0 +1,34 @@
+{
+  "name": "liliom/laravel-inbox",
+  "description": "Laravel messages and inbox system",
+  "type": "library",
+  "keywords": [
+    "laravel",
+    "inbox",
+    "messages",
+    "users",
+    "messenger"
+  ],
+  "authors": [
+    {
+      "name": "Hussam Abd",
+      "email": "hussam3bd@liliom.co"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "illuminate/support": "5.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Liliom\\Inbox\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Liliom\\Inbox\\InboxServiceProvider"
+      ]
+    }
+  }
+}

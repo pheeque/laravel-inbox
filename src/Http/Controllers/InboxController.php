@@ -51,7 +51,7 @@ class InboxController extends Controller
                         ->send();
 
         return redirect()
-            ->route('inbox.index')
+            ->route(config('inbox.route.name') . 'inbox.index')
             ->with('message', [
                 'type' => $thread ? 'success' : 'error',
                 'text' => $thread ? trans('inbox::messages.thread.sent') : trans('inbox::messages.thread.whoops'),
@@ -102,7 +102,7 @@ class InboxController extends Controller
                          ->reply($thread);
 
         return redirect()
-            ->route('inbox.show', $thread)
+            ->route(config('inbox.route.name') . 'inbox.show', $thread)
             ->with('message', [
                 'type' => $message ? 'success' : 'error',
                 'text' => $message ? trans('inbox::messages.message.sent') : trans('inbox::messages.message.whoops'),
@@ -125,7 +125,7 @@ class InboxController extends Controller
         $deleted = $message->delete();
 
         return redirect()
-            ->route('inbox.index')
+            ->route(config('inbox.route.name') . 'inbox.index')
             ->with('message', [
                 'type' => $deleted ? 'success' : 'error',
                 'text' => $deleted ? trans('inbox::messages.thread.deleted') : trans('inbox::messages.thread.whoops'),

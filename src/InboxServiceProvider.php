@@ -2,11 +2,14 @@
 
 namespace Liliom\Inbox;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 class InboxServiceProvider extends ServiceProvider
 {
+    use EventMap;
+
     /**
      * Bootstrap any application services.
      *
@@ -14,10 +17,27 @@ class InboxServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerEvents();
         $this->registerMigrations();
         $this->registerRoutes();
         $this->registerResources();
         $this->registerTranslations();
+    }
+
+    /**
+     * Register the Inbox events.
+     *
+     * @return void
+     */
+    protected function registerEvents()
+    {
+        $events = $this->app->make(Dispatcher::class);
+
+        foreach ($this->events as $event => $listeners) {
+            foreach ($listeners as $listener) {
+                $events->listen($event, $listener);
+            }
+        }
     }
 
     /**

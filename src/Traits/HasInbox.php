@@ -3,6 +3,8 @@
 namespace Liliom\Inbox\Traits;
 
 use Carbon\Carbon;
+use Liliom\Inbox\Events\NewMessageDispatched;
+use Liliom\Inbox\Events\NewReplyDispatched;
 use Liliom\Inbox\Models\Participant;
 use Liliom\Inbox\Models\Thread;
 
@@ -66,7 +68,7 @@ trait HasInbox
         ]);
 
         // Message
-        $thread->messages()->create([
+        $message = $thread->messages()->create([
             'user_id' => $this->id,
             'body' => $this->message
         ]);
@@ -80,6 +82,10 @@ trait HasInbox
 
         if (count($this->recipients)) {
             $thread->addParticipants($this->recipients);
+        }
+
+        if ($thread) {
+            event(new NewMessageDispatched($thread, $message));
         }
 
         return $thread;
@@ -105,7 +111,7 @@ trait HasInbox
             'body' => $this->message
         ]);
 
-        // todo: "$thread->participants()->firstOrCreate"
+        // todo: try "$thread->participants()->firstOrCreate"
         // Add replier as a participant
         $participant = Participant::firstOrCreate([
             'thread_id' => $thread->id,
@@ -118,12 +124,7 @@ trait HasInbox
         $thread->updated_at = Carbon::now();
         $thread->save();
 
-        $participants = $thread->participants()->where('user_id', '!=', $this->id)->get();
-        if ($participants->count()) {
-            foreach ($participants as $participant) {
-//                $participant->user->notify(new NewMessage($thread, $message, $participant));
-            }
-        }
+        event(new NewReplyDispatched($thread, $message));
 
         return $message;
     }
@@ -181,6 +182,7 @@ trait HasInbox
     }
 
     /**
+     * Get unread messages
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

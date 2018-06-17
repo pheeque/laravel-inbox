@@ -1,4 +1,4 @@
-<a href="{{ route(config('inbox.route.name') . 'inbox.show', $thread->id) }}"
+<a href="{{ route(config('inbox.route.name') . 'inbox.show', $thread) }}"
    class="list-group-item {{ !$thread->isUnread() ? 'read' : '' }}">
 	<div class="checkbox d-inline-block">
 		<label>

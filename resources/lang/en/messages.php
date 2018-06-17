@@ -22,4 +22,8 @@ return [
         'whoops' => 'Whoops something went wrong.',
     ],
 
+    'notification' => [
+        'subject' => 'Sent a new message',
+        'button' => 'Open The Message'
+    ],
 ];

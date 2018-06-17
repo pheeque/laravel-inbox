@@ -30,6 +30,14 @@ class InboxController extends Controller
     }
 
     /**
+     *
+     */
+    public function create()
+    {
+        return view('inbox::create');
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request

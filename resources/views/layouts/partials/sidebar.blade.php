@@ -7,25 +7,26 @@
 <ul class="nav nav-pills flex-column nav-stacked">
 	<li class="nav-item">
 		<a class="nav-link {{ !count(request()->all()) ? 'active' : '' }}"
-		   href="{{ route('inbox.index') }}">
+		   href="{{ route(config('inbox.route.name') . 'inbox.index') }}">
 			Inbox
 			<span class="badge badge-success float-right">{{ auth()->user()->unread()->count() }}</span>
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link {{ request()->has('starred') ? 'active' : '' }}"
-		   href="{{ route('inbox.index', ['starred']) }}">
+		   href="{{ route(config('inbox.route.name') . 'inbox.index', ['starred']) }}">
 			Starred
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link {{ request()->has('sent') ? 'active' : '' }}" href="{{ route('inbox.index', ['sent']) }}">
+		<a class="nav-link {{ request()->has('sent') ? 'active' : '' }}"
+		   href="{{ route(config('inbox.route.name') . 'inbox.index', ['sent']) }}">
 			Sent Mail
 		</a>
 	</li>
 	<li class="nav-item">
 		<a class="nav-link {{ request()->has('drafts') ? 'active' : '' }}"
-		   href="{{ route('inbox.index', ['drafts']) }}">
+		   href="{{ route(config('inbox.route.name') . 'inbox.index', ['drafts']) }}">
 			Drafts
 			<span class="badge badge-success float-right">3</span>
 		</a>

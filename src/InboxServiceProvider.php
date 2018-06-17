@@ -31,6 +31,7 @@ class InboxServiceProvider extends ServiceProvider
             'prefix' => config('inbox.route.prefix', 'inbox'),
             'namespace' => 'Liliom\Inbox\Http\Controllers',
             'middleware' => config('inbox.route.middleware', ['web', 'auth']),
+            'as' => config('inbox.route.name')
         ], function () {
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });

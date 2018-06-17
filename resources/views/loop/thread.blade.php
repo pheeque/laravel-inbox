@@ -1,4 +1,5 @@
-<a href="{{ route('inbox.show', $thread->id) }}" class="list-group-item {{ !$thread->isUnread() ? 'read' : '' }}">
+<a href="{{ route(config('inbox.route.name') . 'inbox.show', $thread->id) }}"
+   class="list-group-item {{ !$thread->isUnread() ? 'read' : '' }}">
 	<div class="checkbox d-inline-block">
 		<label>
 			<input type="checkbox">
@@ -16,4 +17,11 @@
 	<span class="float-right badge badge-secondary ml-2">{{ $thread->updated_at->diffForHumans() }}</span>
 	{{--<a href="{{ route('inbox.destroy', $thread->id) }}"><span class="lil-trash"></span></a>--}}
 	{{--<span class="float-right fa fa-paperclip"></span>--}}
+
+	<form action="{{ route(config('inbox.route.name') . 'inbox.destroy', $thread) }}" method="post"
+	      class="d-inline-block float-right">
+		@csrf
+		@method('delete')
+		<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+	</form>
 </a>

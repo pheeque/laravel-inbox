@@ -140,27 +140,21 @@ trait HasInbox
 
     /**
      *
+     * @param bool $withTrashed
+     *
      * @return \Illuminate\Database\Eloquent\Relations\belongsToMany
      */
-    public function participated()
+    public function participated($withTrashed = false)
     {
-        return $this->belongsToMany(Thread::class, 'participants', 'user_id', 'thread_id')
-                    ->withPivot('seen_at')
-                    ->withTimestamps();
-    }
+        $query = $this->belongsToMany(Thread::class, 'participants', 'user_id', 'thread_id')
+                      ->withPivot('seen_at')
+                      ->withTimestamps();
 
-    /**
-     *
-     */
-    public function _received()
-    {
-        return Thread::join($this->participantsTable, "{$this->threadsTable}.id", '=',
-            "{$this->participantsTable}.thread_id")
-                     ->where("{$this->participantsTable}.user_id", $this->id)
-                     ->where("{$this->threadsTable}.user_id", '!=', $this->id)
-                     ->whereNull("{$this->participantsTable}.deleted_at")
-                     ->orderBy("{$this->threadsTable}.updated_at", 'desc')
-                     ->select("{$this->threadsTable}.*");
+        if ( ! $withTrashed) {
+            $query->whereNull("{$this->participantsTable}.deleted_at");
+        }
+
+        return $query;
     }
 
     /**
@@ -171,9 +165,7 @@ trait HasInbox
     public function received()
     {
         // todo: get only the received messages if they got an answer
-        return $this->participated()
-//                    ->has('messages', '>=', 2)
-                    ->latest('updated_at');
+        return $this->participated()->latest('updated_at');
     }
 
     /**
@@ -183,7 +175,9 @@ trait HasInbox
      */
     public function sent()
     {
-        return $this->threads()->latest('updated_at');
+        return $this->participated()
+                    ->where("{$this->threadsTable}.user_id", $this->id)
+                    ->latest('updated_at');
     }
 
     /**

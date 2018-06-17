@@ -139,7 +139,7 @@
 <!-- Compose Modal -->
 <div class="modal fade" id="compose-modal" tabindex="-1">
 	<div class="modal-dialog" role="document">
-		<form class="modal-content" action="{{ route('inbox.store') }}" method="POST">
+		<form class="modal-content" action="{{ route(config('inbox.route.name') . 'inbox.store') }}" method="POST">
 			@csrf
 			<div class="modal-header">
 				<h5 class="modal-title">Send New Message</h5>
@@ -159,7 +159,8 @@
 </div>
 
 @if(session()->has('message'))
-	<div class="alert alert-{{ session('message')['type'] }} alert-dismissible fade show position-fixed">
+	<div class="alert alert-{{ session('message')['type'] }} alert-dismissible fade show position-fixed"
+	     style="bottom:10px; right:15px;">
 		{{ session('message')['text'] }}
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			<span aria-hidden="true">&times;</span>

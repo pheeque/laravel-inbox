@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="{{ route('inbox.index') }}">Liliom Inbox</a>
+		<a class="navbar-brand" href="{{ route(config('inbox.route.name') . 'inbox.index') }}">Liliom Inbox</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
 		        aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>

@@ -19,7 +19,7 @@
 		@include('inbox::loop.message')
 	@endforeach
 
-	<form class="form-group" method="POST" action="{{ route('inbox.reply', $thread->id) }}">
+	<form class="form-group" method="POST" action="{{ route(config('inbox.route.name'). 'inbox.reply', $thread->id) }}">
 		@csrf
 
 		<div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">

@@ -15,7 +15,8 @@ return [
 
     'route' => [
         'prefix' => 'inbox',
-        'middleware' => ['web', 'auth']
+        'middleware' => ['web', 'auth'],
+        'name' => null
     ],
 
     /*

@@ -16,11 +16,11 @@ class InboxController extends Controller
      */
     public function index()
     {
-        $threads = auth()->user();
+        $user = auth()->user();
         if (request()->has('sent')) {
-            $threads = $threads->sent();
+            $threads = $user->sent();
         } else {
-            $threads = $threads->received();
+            $threads = $user->received();
         }
 
         $threads = $threads->paginate(config('inbox.paginate', 10));

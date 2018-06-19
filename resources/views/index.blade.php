@@ -1,17 +1,15 @@
 @extends('inbox::layouts.app')
-@section('title', 'الرسائل')
+@section('title', 'Messages')
 @section('content')
-	@if($threads->count())
-		<div class="list-group">
-			@foreach($threads as $thread)
-				@include('inbox::loop.thread')
-			@endforeach
-		</div>
-	@else
-		<div class="p-5 border">
-			<h3 class="text-center font-weight-bold">There is no messages</h3>
-		</div>
-	@endif
+	<div class="list-group">
+		@forelse($threads as $thread)
+			@include('inbox::loop.thread')
+		@empty
+			<div class="list-group-item p-5">
+				<h3 class="text-center font-weight-bold">There is no messages</h3>
+			</div>
+		@endforelse
+	</div>
 @endsection
 
 @section('pagination')

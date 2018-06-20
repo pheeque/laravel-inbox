@@ -2,7 +2,6 @@
 
 namespace Liliom\Inbox\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -51,7 +50,7 @@ class Thread extends Model
      */
     public function participants()
     {
-        return $this->belongsToMany(User::class, 'participants', 'thread_id', 'user_id')
+        return $this->belongsToMany(config('auth.providers.users.model'), 'participants', 'thread_id', 'user_id')
                     ->withPivot('seen_at', 'deleted_at')
                     ->withTimestamps();
     }
@@ -59,11 +58,11 @@ class Thread extends Model
     /**
      * Recipients of this message
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function recipients()
     {
-        return $this->participants()->where('user_id', '!=', $this->user_id)->withTrashed();
+        return $this->participants()->where('user_id', '!=', $this->user_id);
     }
 
     /**
@@ -74,29 +73,6 @@ class Thread extends Model
     public function user()
     {
         return $this->belongsTo(config('auth.providers.users.model'));
-    }
-
-    /**
-     * Returns threads with new messages that the user is associated with.
-     *
-     * @param $query
-     * @param $userId
-     *
-     * @return mixed
-     */
-    public function scopeForUserWithNewMessages($query, $userId)
-    {
-        # You can replace "threads.id" with $this->getQualifiedKeyName()
-
-        return $query->join('participants', 'threads.id', '=', 'participants.thread_id')
-                     ->where('participants.user_id', $userId)
-                     ->whereNull('participants.deleted_at')
-                     ->where(function ($query) {
-                         $query->where($this->getTable() . '.updated_at', '>',
-                             $this->getConnection()->raw('participants.seen_at'))
-                               ->orWhereNull('participants.seen_at');
-                     })
-                     ->select($this->getTable() . '.*');
     }
 
     /**
@@ -148,7 +124,7 @@ class Thread extends Model
      */
     public function activateAllParticipants()
     {
-        $participants = $this->participants()->withTrashed()->get();
+        $participants = $this->participants()->get();
 
         foreach ($participants as $participant) {
             $participant = $participant->pivot;

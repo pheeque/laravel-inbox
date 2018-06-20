@@ -5,6 +5,9 @@ namespace Liliom\Inbox\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property mixed id
+ */
 class Message extends Model
 {
     use SoftDeletes;

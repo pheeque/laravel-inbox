@@ -33,4 +33,20 @@ return [
         'messages' => 'messages',
         'participants' => 'participants',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Inbox Notification
+    |--------------------------------------------------------------------------
+    |
+    | Via Supported: "mail", "database", "array"
+    |
+    */
+
+    'notifications' => [
+        'via' => [
+//            'mail',
+            'database'
+        ],
+    ],
 ];

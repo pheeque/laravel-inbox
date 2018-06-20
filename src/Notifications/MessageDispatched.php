@@ -2,6 +2,7 @@
 
 namespace Liliom\Inbox\Notifications;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Liliom\Inbox\Models\Message;
@@ -9,6 +10,8 @@ use Liliom\Inbox\Models\Thread;
 
 class MessageDispatched extends Notification
 {
+    use Queueable;
+
     public $thread, $message, $participant;
 
     /**
@@ -34,8 +37,40 @@ class MessageDispatched extends Notification
      */
     public function via($notifiable)
     {
+        return config('inbox.notifications.via', [
+            'mail'
+        ]);
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed $notifiable
+     *
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
         return [
-            'mail',
+            'thread_id' => $this->thread->id,
+            'message_id' => $this->message->id,
+            'isReply' => $this->thread->messages()->count() >= 2,
+        ];
+    }
+
+    /**
+     * Get the database representation of the notification.
+     *
+     * @param  mixed $notifiable
+     *
+     * @return array
+     */
+    public function toDatabase($notifiable)
+    {
+        return [
+            'thread_id' => $this->thread->id,
+            'message_id' => $this->message->id,
+            'isReply' => $this->thread->messages()->count() >= 2,
         ];
     }
 

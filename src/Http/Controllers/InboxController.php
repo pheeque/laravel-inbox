@@ -75,7 +75,7 @@ class InboxController extends Controller
      */
     public function show(Thread $thread)
     {
-        $messages = $thread->messages()->get(); // ->withTrashed()
+        $messages = $thread->messages()->get();
 
         $seen = $thread->participants()
                        ->where('user_id', auth()->id())

@@ -45,8 +45,7 @@ return [
 
     'notifications' => [
         'via' => [
-//            'mail',
-            'database'
+            'mail',
         ],
     ],
 ];

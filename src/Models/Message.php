@@ -40,7 +40,7 @@ class Message extends Model
      */
     public function thread()
     {
-        return $this->belongsTo(Thread::class);
+        return $this->belongsTo(config('inbox.models.thread'));
     }
 
     /**
@@ -50,7 +50,7 @@ class Message extends Model
      */
     public function participants()
     {
-        return $this->hasMany(Participant::class, 'thread_id', 'thread_id');
+        return $this->hasMany(config('inbox.models.participant'), 'thread_id', 'thread_id');
     }
 
     /**

@@ -40,7 +40,7 @@ class Thread extends Model
      */
     public function messages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(config('inbox.models.message'));
     }
 
     /**
@@ -50,7 +50,8 @@ class Thread extends Model
      */
     public function participants()
     {
-        return $this->belongsToMany(config('auth.providers.users.model'), 'participants', 'thread_id', 'user_id')
+        return $this->belongsToMany(config('auth.providers.users.model'), config('inbox.tables.participants'),
+            'thread_id', 'user_id')
                     ->withPivot('seen_at', 'deleted_at')
                     ->withTimestamps();
     }
@@ -107,8 +108,9 @@ class Thread extends Model
     public function addParticipants(array $participants)
     {
         if (count($participants)) {
+            $participantClass = config('inbox.models.participant');
             foreach ($participants as $user_id) {
-                $participant = Participant::firstOrCreate([
+                $participant = $participantClass::firstOrCreate([
                     'thread_id' => $this->id,
                     'user_id' => $user_id,
                 ]);

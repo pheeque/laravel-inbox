@@ -44,7 +44,7 @@ class Participant extends Model
      */
     public function thread()
     {
-        return $this->belongsTo(Thread::class);
+        return $this->belongsTo(config('inbox.models.thread'));
     }
 
     /**

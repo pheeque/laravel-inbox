@@ -21,7 +21,7 @@ class MessageDispatched extends Notification
      * @param Message $message
      * @param         $participant
      */
-    public function __construct(Thread $thread, Message $message, $participant)
+    public function __construct($thread, $message, $participant)
     {
         $this->thread = $thread;
         $this->message = $message;

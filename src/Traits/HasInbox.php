@@ -5,7 +5,6 @@ namespace Liliom\Inbox\Traits;
 use Carbon\Carbon;
 use Liliom\Inbox\Events\NewMessageDispatched;
 use Liliom\Inbox\Events\NewReplyDispatched;
-use Liliom\Inbox\Models\Participant;
 use Liliom\Inbox\Models\Thread;
 
 trait HasInbox
@@ -13,6 +12,7 @@ trait HasInbox
     protected $subject, $message;
     protected $recipients = [];
     protected $threadsTable, $messagesTable, $participantsTable;
+    protected $threadClass, $participantClass;
 
     /**
      * Create a new Eloquent model instance.
@@ -26,6 +26,9 @@ trait HasInbox
         $this->threadsTable = config('inbox.tables.threads');
         $this->messagesTable = config('inbox.tables.messages');
         $this->participantsTable = config('inbox.tables.participants');
+
+        $this->threadClass = config('inbox.models.thread');
+        $this->participantClass = config('inbox.models.participant');
 
         parent::__construct($attributes);
     }
@@ -74,7 +77,8 @@ trait HasInbox
         ]);
 
         // Sender
-        Participant::create([
+        $participantClass = $this->participantClass;
+        $participantClass::create([
             'user_id' => $this->id,
             'thread_id' => $thread->id,
             'seen_at' => Carbon::now()
@@ -111,9 +115,9 @@ trait HasInbox
             'body' => $this->message
         ]);
 
-        // todo: try "$thread->participants()->firstOrCreate"
         // Add replier as a participant
-        $participant = Participant::firstOrCreate([
+        $participantClass = $this->participantClass;
+        $participant = $participantClass::firstOrCreate([
             'thread_id' => $thread->id,
             'user_id' => $this->id
         ]);
@@ -136,7 +140,7 @@ trait HasInbox
      */
     public function threads()
     {
-        return $this->hasMany(Thread::class);
+        return $this->hasMany($this->threadClass);
     }
 
     /**
@@ -147,7 +151,7 @@ trait HasInbox
      */
     public function participated($withTrashed = false)
     {
-        $query = $this->belongsToMany(Thread::class, 'participants', 'user_id', 'thread_id')
+        $query = $this->belongsToMany($this->threadClass, $this->participantsTable, 'user_id', 'thread_id')
                       ->withPivot('seen_at')
                       ->withTimestamps();
 

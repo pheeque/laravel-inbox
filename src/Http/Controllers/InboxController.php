@@ -9,6 +9,14 @@ use Liliom\Inbox\Models\Thread;
 
 class InboxController extends Controller
 {
+    protected $threadClass, $participantClass;
+
+    public function __construct()
+    {
+        $this->threadClass = config('inbox.models.thread');
+        $this->participantClass = config('inbox.models.participant');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -73,8 +81,11 @@ class InboxController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Thread $thread)
+    public function show($thread)
     {
+        $threadClass = $this->threadClass;
+        $thread = $threadClass::findOrFail($thread);
+
         $messages = $thread->messages()->get();
 
         $seen = $thread->participants()
@@ -99,8 +110,11 @@ class InboxController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function reply(Request $request, Thread $thread)
+    public function reply(Request $request, $thread)
     {
+        $threadClass = $this->threadClass;
+        $thread = $threadClass::findOrFail($thread);
+
         $request->validate([
             'body' => 'required',
         ]);
@@ -124,8 +138,11 @@ class InboxController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
+    public function destroy($thread)
     {
+        $threadClass = $this->threadClass;
+        $thread = $threadClass::findOrFail($thread);
+        
         $message = Participant::where('user_id', auth()->id())
                               ->where('thread_id', $thread->id)
                               ->firstOrFail();

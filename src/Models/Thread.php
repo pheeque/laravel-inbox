@@ -179,10 +179,10 @@ class Thread extends Model
             $users = [$users];
         }
 
-        $threadsTable = config('inbox.tables.threads');
         $participantsTable = config('inbox.tables.participants');
 
-        $query->join($participantsTable, "{$threadsTable}.id", '=', "{$participantsTable}.thread_id")
+        $query->select($this->table . '.*')
+              ->join($participantsTable, "{$this->table}.id", '=', "{$participantsTable}.thread_id")
               ->whereIn("{$participantsTable}.user_id", $users);
     }
 

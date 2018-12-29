@@ -105,7 +105,8 @@ trait HasInbox
     public function reply($thread)
     {
         if ( ! is_object($thread)) {
-            $thread = Thread::whereId($thread)->firstOrFail();
+            $threadClass = $this->threadClass;
+            $thread = $threadClass::whereId($thread)->firstOrFail();
         }
 
         $thread->activateAllParticipants();

@@ -162,7 +162,7 @@ class Thread extends Model
             $users = [$users];
         }
 
-        $query->whereIn('threads.user_id', $users);
+        $query->whereIn($this->table . '.user_id', $users);
     }
 
     /**
@@ -195,6 +195,6 @@ class Thread extends Model
      */
     public function scopeSeen($query)
     {
-        $query->whereNotNull('participants.seen_at');
+        $query->whereNotNull(config('inbox.tables.participants') . '.seen_at');
     }
 }

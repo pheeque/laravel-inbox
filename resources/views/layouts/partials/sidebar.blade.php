@@ -13,15 +13,16 @@
 		</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link {{ request()->has('starred') ? 'active' : '' }}"
-		   href="{{ route(config('inbox.route.name') . 'inbox.index', ['starred']) }}">
-			Starred
-		</a>
-	</li>
-	<li class="nav-item">
 		<a class="nav-link {{ request()->has('sent') ? 'active' : '' }}"
 		   href="{{ route(config('inbox.route.name') . 'inbox.index', ['sent']) }}">
 			Sent Mail
+		</a>
+	</li>
+	{{--
+	<li class="nav-item">
+		<a class="nav-link {{ request()->has('starred') ? 'active' : '' }}"
+		   href="{{ route(config('inbox.route.name') . 'inbox.index', ['starred']) }}">
+			Starred
 		</a>
 	</li>
 	<li class="nav-item">
@@ -31,4 +32,5 @@
 			<span class="badge badge-success float-right">3</span>
 		</a>
 	</li>
+	 --}}
 </ul>

@@ -14,7 +14,6 @@
 
 	<style>
 		/* CSS used here will be applied after bootstrap.css */
-
 		.tab-pane .list-group-item:first-child {
 			border-top-right-radius: 0;
 			border-top-left-radius: 0;
@@ -39,6 +38,7 @@
 @include('inbox::layouts.partials.navbar')
 <div class="container-fluid">
 
+	{{--
 	<div class="row">
 		<div class="col-sm-3 col-md-2">
 			<div class="btn-group dropdown">
@@ -51,6 +51,7 @@
 					<li><a href="#">Tasks</a></li>
 				</ul>
 			</div>
+
 		</div>
 		<div class="col-sm-9 col-md-10">
 			<!-- Split button -->
@@ -86,6 +87,7 @@
 		</div>
 	</div>
 	<hr>
+	--}}
 	<div class="row">
 		<div class="col-sm-3 col-md-2">
 			@include('inbox::layouts.partials.sidebar')
@@ -98,6 +100,7 @@
 						<i class="fa fa-inbox"></i> Primary
 					</a>
 				</li>
+				{{--
 				<li class="nav-item">
 					<a class="nav-link" href="#profile" data-toggle="tab">
 						<i class="fa fa-user"></i> Social
@@ -109,6 +112,7 @@
 						Promotions
 					</a>
 				</li>
+				 --}}
 			</ul>
 
 			<!-- Tab panes -->
@@ -117,6 +121,7 @@
 					@yield('content')
 				</div>
 
+				{{--
 				<div class="tab-pane fade in" id="profile">
 					<div class="list-group">
 						<div class="list-group-item">
@@ -127,6 +132,7 @@
 				<div class="tab-pane fade in" id="messages">
 					...
 				</div>
+				 --}}
 			</div>
 
 			<div class="clearfix text-center mx-auto mt-4 d-table">

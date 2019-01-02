@@ -5,7 +5,7 @@
 			<input type="checkbox">
 		</label>
 	</div>
-	<i class="far fa-star"></i>
+
 	@if($thread->isUnread())
 		<span class="badge badge-success">New</span>
 	@endif

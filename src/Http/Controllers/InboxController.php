@@ -13,6 +13,8 @@ class InboxController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->threadClass = config('inbox.models.thread');
         $this->participantClass = config('inbox.models.participant');
     }
@@ -142,7 +144,7 @@ class InboxController extends Controller
     {
         $threadClass = $this->threadClass;
         $thread = $threadClass::findOrFail($thread);
-        
+
         $message = Participant::where('user_id', auth()->id())
                               ->where('thread_id', $thread->id)
                               ->firstOrFail();

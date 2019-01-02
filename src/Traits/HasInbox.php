@@ -164,7 +164,7 @@ trait HasInbox
     }
 
     /**
-     * Get the threads that has been send to the user.
+     * Get the threads that have been sent to the user.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -175,7 +175,7 @@ trait HasInbox
     }
 
     /**
-     * Get the threads that has been sent by user.
+     * Get the threads that have been sent by a user.
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

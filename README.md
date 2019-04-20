@@ -23,7 +23,7 @@ If you don't use Laravel 5.5+ you have to add the service provider manually
 You can publish the config-file with:
 
 ``` bash
-php artisan vendor:publish --provider="Liliom\Inbox\InboxServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Liliom\Inbox\InboxServiceProvider" --tag="inbox-config"
 ```
 
 This is the contents of the published config file:
